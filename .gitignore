@@ -1,0 +1,16 @@
+# Python
+*.pyc
+*.pyo
+__pycache__/
+
+# Flask
+instance/
+.webassets-cache/
+
+# Virtual environment
+venv/
+env/
+
+# IDE settings (VSCode, PyCharmなど)
+.vscode/
+.idea/
