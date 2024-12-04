@@ -7,7 +7,7 @@ from wtforms.validators import DataRequired,Email,Length,EqualTo
 user_bp = Blueprint('user',__name__,url_prefix='/user')
 
 class SignupForm(FlaskForm):
-    mail = StringField(
+    email = StringField(
         'メールアドレス',
         validators=[DataRequired(message='メールアドレスが未入力です'),
                     Email(message='メールアドレスの形式が正しくありません')
@@ -21,13 +21,14 @@ class SignupForm(FlaskForm):
         'パスワード(確認用)',
         validators=[
             DataRequired(message='パスワードが未入力です'),
-            EqualTo('password',messag="パスワードが一致しません")
+            EqualTo('password',message="パスワードが一致しません")
         ]
     )
-    submit = SubmitField('登録')
+    submit = SubmitField('確認')
     
     
 
 @user_bp.route('/sign_up',methods=['GET','POST'])
 def sign_up():
-    return render_template('user/sign_up.html')
+    form = SignupForm()
+    return render_template('user/sign_up.html',form=form)
