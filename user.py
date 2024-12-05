@@ -1,4 +1,4 @@
-from flask import Flask, render_template , redirect, url_for,Blueprint
+from flask import Flask, render_template , redirect, url_for,Blueprint,request,session
 import string,random
 from flask_wtf import FlaskForm
 from wtforms import StringField,PasswordField,SubmitField
@@ -32,3 +32,11 @@ class SignupForm(FlaskForm):
 def sign_up():
     form = SignupForm()
     return render_template('user/sign_up.html',form=form)
+
+@user_bp.route('/sign_up_confirm',methods=['POST'])
+def sign_up_confirm():
+    form = SignupForm()
+    if form.validate_on_submit():
+        return render_template('user/sign_up_confirm.html',email= form.email.data)
+    else:
+        return render_template('user/sign_up.html',form=form)
