@@ -13,7 +13,7 @@
 
         <div>
             {{form.email.label}}
-            {{form.email(class='form-control',size='32')}}
+            {{form.email(class='form-control',size='32',value=email if email else '')}}
             {% for error in form.email.errors %}
             <span style="color:red;">{{error}}</span>
             {% endfor %}
