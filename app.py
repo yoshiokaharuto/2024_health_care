@@ -1,4 +1,4 @@
-from flask import Flask, render_template , redirect, url_for
+from flask import Flask, render_template , redirect, url_for,session
 import string,random
 from user import user_bp
 
@@ -9,6 +9,7 @@ app.register_blueprint(user_bp)
 
 @app.route('/')
 def top():
+    session.clear()
     return render_template('index.html')
 
 if __name__ == '__main__':
