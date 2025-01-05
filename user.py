@@ -1,10 +1,10 @@
-from flask import Flask, render_template , redirect, url_for,Blueprint,request,session,flash
-import db,string,random
+from flask import Flask, render_template, redirect, url_for, Blueprint, request, session, flash
+import db, string, random
 from flask_wtf import FlaskForm
-from wtforms import StringField,PasswordField,SubmitField
-from wtforms.validators import DataRequired,Email,Length,EqualTo
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import DataRequired, Email, Length, EqualTo
 
-user_bp = Blueprint('user',__name__,url_prefix='/user')
+user_bp = Blueprint('user', __name__, url_prefix='/user')
 
 class SignupForm(FlaskForm):
     email = StringField(
@@ -15,53 +15,50 @@ class SignupForm(FlaskForm):
     password = PasswordField(
         'パスワード',
         validators=[DataRequired(message='パスワードが未入力です'),
-        Length(min=6,message='パスワードは6文字以上で入力してください')])
+        Length(min=6, message='パスワードは6文字以上で入力してください')])
     
     password_confirm = PasswordField(
         'パスワード(確認用)',
         validators=[
             DataRequired(message='パスワードが未入力です'),
-            EqualTo('password',message="パスワードが一致しません")
+            EqualTo('password', message="パスワードが一致しません")
         ]
     )
     submit = SubmitField('確認')
-    
-    
 
-@user_bp.route('/sign_up',methods=['GET','POST'])
+@user_bp.route('/sign_up', methods=['GET', 'POST'])
 def sign_up():
     form = SignupForm()
     if 'mail' in session:
         email = session['mail']
     else:
         email = None 
-    return render_template('user/sign_up.html',form=form,email=email)
+    return render_template('user/sign_up.html', form=form, email=email)
 
-@user_bp.route('/sign_up_confirm',methods=['POST'])
+@user_bp.route('/sign_up_confirm', methods=['POST'])
 def sign_up_confirm():
     form = SignupForm()
     session['mail'] = form.email.data
     email = session['mail']
-    print(email)
+
     if form.validate_on_submit():
         password = form.password.data
         salt = db.get_salt()
-        hashed_pw = db.get_hash(password,salt)
+        hashed_pw = db.get_hash(password, salt)
         session['password'] = hashed_pw
-        return render_template('user/sign_up_confirm.html',email= email)
+        return render_template('user/sign_up_confirm.html', email=email)
     else:
-        return render_template('user/sign_up.html',form=form,email=email)
+        return render_template('user/sign_up.html', form=form, email=email)
     
 @user_bp.route('/sign_up_execute')
 def sign_up_execute():
-    
-    mail = session['mail']
-    pw = session['password']
-    
-    count = db.user_register(mail,pw)
+    form = SignupForm()
+    mail = session.get('mail')
+    pw = session.get('password')
+    count = db.user_register(mail, pw)
     
     if count == 1:
         flash('登録が完了しました')
         return redirect(url_for('top'))
     else:
-        return render_template('sign_up.html')
+        return render_template('user/sign_up.html', form=form)
