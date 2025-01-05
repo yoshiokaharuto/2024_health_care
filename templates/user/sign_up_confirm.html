@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登録確認</title>
+</head>
+<body>
+    <h1>健康管理アプリ</h1>
+    <p>登録内容確認</p>
+    <p>登録内容に誤りがないかご確認ください</p>
+
+    <div>
+        <div>
+            <label>メールアドレス</label>
+            <span>{{ email }}</span>
+        </div>
+        <div>
+            <label>パスワード</label>
+            <span>*******</span>
+        </div>
+    </div>
+    <a href="{{url_for('user.sign_up')}}">修正</a>
+    <a href="{{url_for('user.sign_up_execute')}}">登録</a>
+</body>
+</html>
