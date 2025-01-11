@@ -46,15 +46,8 @@ class HealthUsers(db.Model,UserMixin):
         return str(self.user_id)
     
     def verify_password(self,password) -> bool:
-        # salt_str = self.salt.decode('utf-8') if isinstance(self.salt, bytes) else self.salt
-        print(f"入力されたパスワード: {password}")
         salt_str = self.salt
         input_hash = hashlib.pbkdf2_hmac('sha256',password.encode('utf-8'),salt_str.encode('utf-8'),1000).hex()
-        print(f"self.salt: {self.salt}")
-        print(f"DB salt: {salt_str}")
-        print(f"Input hash: {input_hash}")
-        print(f"Stored hash: {self.hashed_password}")
-        print(f"一致: {input_hash == self.hashed_password}")
         return input_hash == self.hashed_password
 
 @login_manager.user_loader
@@ -85,15 +78,12 @@ def login():
 @app.route('/user_top',methods=['GET'])
 @login_required
 def user_top():
-    print(f"Current user authenticated: {current_user.is_authenticated}")
-    print(f"Current user: {current_user}")  # ログイン中のユーザー情報を確認
     return render_template('user.html')
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
-    print("User ログアウト successfully.")  # ログアウト確認用ログ
     return redirect(url_for('top'))
 
 if __name__ == '__main__':
