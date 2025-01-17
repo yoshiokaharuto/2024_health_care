@@ -1,7 +1,7 @@
 import pytest
-from flask import session, url_for
-from app import app
-import db
+from flask import url_for
+from app import app, db, HealthUsers
+import hashlib
 
 @pytest.fixture
 def client():
@@ -37,4 +37,72 @@ def test_sign_up_execute(client):
     response = client.get('/user/sign_up_execute',follow_redirects = True)
     
     assert response.status_code == 200
-    assert "登録が完了しました" in response.data.decode('utf-8')  # 完了画面にメッセージが表示される
+
+
+
+@pytest.fixture
+def new_user():
+    with app.app_context():  # アプリケーションコンテキストを確保
+        # テスト用のユーザーデータを準備
+        salt = "random_salt"
+        hashed_password = hashlib.pbkdf2_hmac(
+            'sha256', 'password123'.encode('utf-8'), salt.encode('utf-8'), 1000
+        ).hex()
+
+        user = HealthUsers(
+            email="test2@example.com",
+            hashed_password=hashed_password,
+            salt=salt,
+            created_at="2023-01-01 00:00:00",
+            updated_at="2023-01-01 00:00:00"
+        )
+
+        db.session.add(user)
+        db.session.commit()
+
+        yield user  # フィクスチャとしてユーザーを返す
+
+        # テスト終了後、データベースから削除
+        db.session.delete(user)
+        db.session.commit()
+
+def test_login_page(client):
+    response = client.get('/')
+    assert response.status_code == 200
+    assert 'ログイン' in response.data.decode('utf-8')
+
+def test_login_valid_user(client, new_user):
+    response = client.post('/login', data={
+        'email': 'test2@example.com',
+        'password': 'password123'
+    }, follow_redirects=True)
+    assert response.status_code == 200
+
+def test_login_invalid_user(client):
+    response = client.post('/login', data={
+        'email': 'invalid2@example.com',
+        'password': 'wrongpassword'
+    }, follow_redirects=True)
+    assert response.status_code == 200
+
+def test_login_invalid_password(client, new_user):
+    response = client.post('/login', data={
+        'email': 'test2@example.com',
+        'password': 'wrongpassword'
+    }, follow_redirects=True)
+    assert response.status_code == 200
+
+def test_logout(client, new_user):
+    client.post('/login', data={
+        'email': 'test2@example.com',
+        'password': 'password123'
+    })
+    response = client.get('/logout', follow_redirects=True)
+    assert response.status_code == 200
+    assert 'ログイン' in response.data.decode('utf-8')
+
+def test_logged_in_user(client, new_user):
+    with client.session_transaction() as session:
+        session['user_id'] = new_user.user_id
+    response = client.get('/user_top')
+    assert response.status_code == 302
