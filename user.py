@@ -45,6 +45,7 @@ def sign_up_confirm():
         password = form.password.data
         salt = db.get_salt()
         hashed_pw = db.get_hash(password, salt)
+        session['salt'] = salt
         session['password'] = hashed_pw
         return render_template('user/sign_up_confirm.html', email=email)
     else:
@@ -55,7 +56,8 @@ def sign_up_execute():
     form = SignupForm()
     mail = session.get('mail')
     pw = session.get('password')
-    count = db.user_register(mail, pw)
+    salt = session.get('salt')
+    count = db.user_register(mail, pw,salt)
     
     if count == 1:
         flash('登録が完了しました')

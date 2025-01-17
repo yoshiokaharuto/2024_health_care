@@ -11,23 +11,18 @@ def get_salt():
     return salt
 
 def get_hash(password,salt):
-    b_pw = bytes(password,'utf-8')
-    b_salt = bytes(salt,'utf-8')
-    
-    hashed_pw = hashlib.pbkdf2_hmac('sha256',b_pw,b_salt,1000).hex()
+    hashed_pw = hashlib.pbkdf2_hmac('sha256',password.encode('utf-8'),salt.encode('utf-8'),1000).hex()
     
     return hashed_pw
 
-def user_register(mail,password):
+def user_register(mail,password,salt):
     sql = "INSERT INTO health_users VALUES(default,%s,%s,%s)"
-    salt = get_salt()
-    hashed_pw = get_hash(password,salt)
     
     try:
         connection = get_connection()
         cursor = connection.cursor()
         
-        cursor.execute(sql,(mail,hashed_pw,salt))
+        cursor.execute(sql,(mail,password,salt))
         count = cursor.rowcount
         connection.commit()
     except psycopg2.DatabaseError:
