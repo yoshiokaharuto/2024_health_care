@@ -98,3 +98,17 @@ def sign_up_execute():
 def profile():
     form = ProfileForm()
     return render_template('user/profile.html', form=form)
+
+@user_bp.route('/profile_confirm', methods=['POST'])
+def profile_confirm():
+    form = ProfileForm()
+    if form.validate_on_submit():
+        session['birthday'] = form.birthday.data
+        session['height'] = form.height.data
+        session['weight'] = form.weight.data
+        session['target_weight'] = form.target_weight.data
+        session['target_sleep'] = form.target_sleep.data
+        session['daily_excercise'] = form.daily_excercise.data
+        return render_template('user/profile_confirm.html', form=form)
+    else:
+        return render_template('user/profile.html', form=form)
