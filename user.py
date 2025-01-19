@@ -1,8 +1,8 @@
 from flask import Flask, render_template, redirect, url_for, Blueprint, request, session, flash
 import db, string, random
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, Email, Length, EqualTo
+from wtforms import StringField, PasswordField, SubmitField,DateField,FloatField
+from wtforms.validators import DataRequired, Email, Length, EqualTo, NumberRange
 
 user_bp = Blueprint('user', __name__, url_prefix='/user')
 
@@ -25,6 +25,35 @@ class SignupForm(FlaskForm):
         ]
     )
     submit = SubmitField('確認')
+
+class ProfileForm(FlaskForm):
+    birthday = DateField(
+        '生年月日',
+        validators=[DataRequired(message='生年月日が未入力です')],
+        format='%Y-%m-%d'
+    )
+    height = FloatField(
+        '身長',
+        validators=[DataRequired(message='身長が未入力です'),NumberRange(min=0)]
+    )
+    weight = FloatField(
+        '体重',
+        validators=[DataRequired(message='体重が未入力です'),NumberRange(min=0)]
+    )
+    target_weight = FloatField(
+        '目標体重',
+        validators=[DataRequired(message='目標体重が未入力です'),NumberRange(min=0)]
+    )
+    target_sleep = FloatField(
+        '目標睡眠時間',
+        validators=[DataRequired(message='目標睡眠時間が未入力です'),NumberRange(min=0,max=24)]
+    )
+    daily_excercise = FloatField(
+        '1日の運動時間',
+        validators=[DataRequired(message='1日の運動時間が未入力です'),NumberRange(min=0,max=24)]
+    )
+    submit = SubmitField('プロフィールを更新')
+    
 
 @user_bp.route('/sign_up', methods=['GET', 'POST'])
 def sign_up():
@@ -64,3 +93,8 @@ def sign_up_execute():
         return redirect(url_for('top'))
     else:
         return render_template('user/sign_up.html', form=form)
+
+@user_bp.route('/profile', methods=['GET', 'POST'])
+def profile():
+    form = ProfileForm()
+    return render_template('user/profile.html', form=form)
