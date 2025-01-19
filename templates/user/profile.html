@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プロフィール</title>
+</head>
+<body>
+    <h1>プロフィール管理</h1>
+    <form action="{{url_for('user.profile_confirm')}}",method="post">
+        {{form.hidden_tag()}}
+
+        <div>
+            {{form.birthday.label}}
+            {{form.birthday(class='form-control',size='32')}}
+            {% for error in form.birthday.errors %}
+            <span style="color:red;">{{error}}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{form.height.label}}
+            {{form.height(class='form-control',size='32')}}
+            {% for error in form.height.errors %}
+            <span style="color:red;">{{error}}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{form.weight.label}}
+            {{form.weight(class='form-control',size='32')}}
+            {% for error in form.weight.errors %}
+            <span style="color:red;">{{error}}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{form.target_weight.label}}
+            {{form.target_weight(class='form-control',size='32')}}
+            {% for error in form.target_weight.errors %}
+            <span style="color:red;">{{error}}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{form.target_sleep.label}}
+            {{form.target_sleep(class='form-control',size='32')}}
+            {% for error in form.target_sleep.errors %}
+            <span style="color:red;">{{error}}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{form.daily_excercise.label}}
+            {{form.daily_excercise(class='form-control',size='32')}}
+            {% for error in form.daily_excercise.errors %}
+            <span style="color:red;">{{error}}</span>
+            {% endfor %}
+        </div> 
+        <div>
+            {{form.submit(class='btn btn-primary')}}
+        </div>
+    </form>
+</body>
+</html>
