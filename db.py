@@ -30,4 +30,22 @@ def user_register(mail,password,salt):
     finally:
         cursor.close()
         connection.close()
-    return count 
+    return count
+
+def user_profile(user_id,birthday,height,weight,target_weight,target_sleep,daily_excercise):
+    
+    sql = "INSERT INTO profiles VALUES(default,%s,%s,%s,%s,%s,%s,%s)"
+    
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+        
+        cursor.execute(sql,(user_id,birthday,height,weight,target_weight,target_sleep,daily_excercise))
+        count = cursor.rowcount
+        connection.commit()
+    except psycopg2.DatabaseError:
+        count = 0
+    finally:
+        cursor.close()
+        connection.close()
+    return count
