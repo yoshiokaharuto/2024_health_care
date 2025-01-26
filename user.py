@@ -3,8 +3,11 @@ import db, string, random
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField,DateField,FloatField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, NumberRange
+from flask_login import login_required
+from flask_login import current_user
 
 user_bp = Blueprint('user', __name__, url_prefix='/user')
+
 
 class SignupForm(FlaskForm):
     email = StringField(
@@ -110,5 +113,25 @@ def profile_confirm():
         session['target_sleep'] = form.target_sleep.data
         session['daily_excercise'] = form.daily_excercise.data
         return render_template('user/profile_confirm.html', form=form)
+    else:
+        return render_template('user/profile.html', form=form)
+
+@user_bp.route('/profile_execute')
+@login_required
+def profile_execute():
+    form = ProfileForm()
+    user_id = current_user.get_id()
+    birthday = session.get('birthday')
+    height = session.get('height')
+    weight = session.get('weight')
+    target_weight = session.get('target_weight')
+    target_sleep = session.get('target_sleep')
+    daily_excercise = session.get('daily_excercise')
+    print(f'ユーザーid:{user_id}')
+    count = db.user_profile(user_id, birthday, height, weight, target_weight, target_sleep, daily_excercise)
+    print(f'カウント:{count}')
+    if count == 1:
+        flash('プロフィールを更新しました')
+        return redirect(url_for('user_top'))
     else:
         return render_template('user/profile.html', form=form)
