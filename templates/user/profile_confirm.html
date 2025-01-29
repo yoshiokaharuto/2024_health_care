@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プロフィール</title>
+</head>
+<body>
+    <p>登録内容確認</p>
+    <div>
+        <div>
+            <label>誕生日</label>
+            <span>{{ session['birthday'] }}</span>
+        </div>
+        <div>
+            <label>身長</label>
+            <span>{{ session['height'] }}</span>
+        </div>
+        <div>
+            <label>体重</label>
+            <span>{{ session['weight'] }}</span>
+        </div>
+        <div>
+            <label>目標体重</label>
+            <span>{{ session['target_weight'] }}</span>
+        </div>
+        <div>
+            <label>目標睡眠時間</label>
+            <span>{{ session['target_sleep'] }}</span>
+        </div>
+        <div>
+            <label>1日の運動時間</label>
+            <span>{{ session['daily_excercise'] }}</span>
+        </div>
+    </div>
+
+    <a href="{{url_for('user.profile')}}">修正</a>
+    <a href="{{url_for('user.profile_execute')}}">登録</a>
+</body>
+</html>

@@ -6,7 +6,14 @@
     <title>健康管理アプリ</title>
 </head>
 <body>
-    <p>ようこそ</p>
+    <h1>健康管理アプリ</h1>
+    <a href="{{url_for('user.profile')}}">プロフィール</a>
     <a href="{{url_for('logout')}}">ログアウト</a>
+
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <script>
+      alert("{{ messages[0] }}"); // フラッシュメッセージをアラートで表示
+    </script>
+    {% endif %} {% endwith %}
 </body>
 </html>
