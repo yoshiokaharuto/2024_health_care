@@ -106,3 +106,34 @@ def test_logged_in_user(client, new_user):
         session['user_id'] = new_user.user_id
     response = client.get('/user_top')
     assert response.status_code == 302
+    
+
+def test_profile_page(client):
+    response = client.get('/user/profile')
+    assert response.status_code == 200
+    assert 'プロフィール管理' in response.data.decode('utf-8')
+    
+
+def test_profile_confirm_page(client):
+    response = client.post('/user/profile_confirm', data = {
+        "birthday": "2000-01-01",
+        "height": 170.5,
+        "weight": 65.2,
+        "target_weight": 60.0,
+        "target_sleep": 8.0,
+        "daily_excercise": 1.5
+    },follow_redirects = True)
+    assert response.status_code == 200
+    assert b"170.5" in response.data
+
+def test_profile_excecute(client):
+    with client.session_transaction() as session:
+        session['birthday'] =  "2000-01-01",
+        session['height'] = 170.5,
+        session['weight'] = 65.2,
+        session['target_weight'] = 60.0,
+        session['target_sleep'] = 8.0
+        session['daily_excercise'] = 1.5
+        
+    response = client.get('user/profile_execute',follow_redirects = True)
+    assert response.status_code == 200
