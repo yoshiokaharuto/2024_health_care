@@ -8,7 +8,7 @@
 <body>
     <p>食事記録</p>
 
-    <form action="{{url_for('user_top')}}" method="POST" novalidate>
+    <form action="{{url_for('health.food_record_confirm')}}" method="POST" novalidate>
         {{form.hidden_tag()}}
 
         <div>
@@ -20,11 +20,7 @@
         </div>
         <div>
             {{ form.meal_type.label }}
-            <select name="" id="">
-                {% for f in form.meal_type %}
-                <option value={{f}}></option>
-                {% endfor %}
-            </select>
+            {{form.meal_type(class="form-control")}}
             {% for error in form.meal_type.errors %}
             <span style="color:red;">{{ error }}</span>
             {% endfor %}
