@@ -49,3 +49,41 @@ def user_profile(user_id,birthday,height,weight,target_weight,target_sleep,daily
         cursor.close()
         connection.close()
     return count
+
+def insert_meal(user_id, date, meal_type):
+    sql = "INSERT INTO meals VALUES (default,%s, %s, %s) RETURNING meal_id"
+    
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+        cursor.execute(sql, (user_id, date, meal_type))
+        meal_id = cursor.fetchone()
+
+        if meal_id:
+            meal_id = meal_id[0]
+            connection.commit()
+        else:
+            meal_id = None
+
+    except psycopg2.DatabaseError as e:
+        meal_id = None
+    finally:
+        cursor.close()
+        connection.close()
+
+    return meal_id
+
+def insert_meal_item(meal_id,meal_detail):
+    sql = "INSERT INTO meal_items VALUES (default,%s,%s)"
+    result = True
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+        cursor.execute(sql, (meal_id,meal_detail))
+        connection.commit()
+    except psycopg2.DatabaseError:
+        result = False
+    finally:
+        cursor.close()
+        connection.close()
+    return result

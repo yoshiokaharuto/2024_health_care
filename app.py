@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, session
 import string, random,hashlib,db
 from user import user_bp
+from health import health_bp
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
@@ -13,6 +14,7 @@ app = Flask(__name__)
 app.secret_key = ''.join(random.choices(string.ascii_letters, k=256))
 
 app.register_blueprint(user_bp)
+app.register_blueprint(health_bp)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
