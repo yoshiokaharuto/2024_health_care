@@ -4,6 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>食事記録</title>
+    <script>
+        function addMealInput() {
+            let container = document.getElementById("meal-container");
+            let inputDiv = document.createElement("div");
+            inputDiv.innerHTML = `<input type="text" name="meal_detail-${container.children.length}" class="form-control" size="32"> 
+                          <button type="button" onclick="removeMealInput(this)">削除</button>`;
+            container.appendChild(inputDiv);
+        }
+
+        function removeMealInput(button) {
+            button.parentElement.remove();
+        }
+    </script>
+
 </head>
 <body>
     <p>食事記録</p>
@@ -15,26 +29,36 @@
             {{form.date.label}}
             {{form.date(class='form-control',size=32)}}
             {% for error in form.date.errors %}
-            <span style="color:red";>{{error}}</span>
+            <span style="color:red">{{error}}</span>
             {% endfor %}
         </div>
         <div>
             {{ form.meal_type.label }}
-            {{form.meal_type(class="form-control")}}
+            {{ form.meal_type(class='form-control') }}
             {% for error in form.meal_type.errors %}
             <span style="color:red;">{{ error }}</span>
             {% endfor %}
         </div>
-        <div>
-            {{form.meal_detail.label}}
-            {{form.meal_detail(class='form-control',size=32)}}
-            {% for error in form.meal_detail.errors %}
-            <span style="color:red";>{{error}}</span>
+        <div id="meal-container">
+            {% for field in form.meal_detail %}
+                <div>
+                    {{ field(class='form-control', size=32) }}
+                    <button type="button" onclick="removeMealInput(this)">削除</button>
+                </div>
             {% endfor %}
-        </div>
+            <button type="button" onclick="addMealInput()">追加</button>
+            </div>
+
         <div>
             {{form.submit(class='btn btn-primary')}}
         </div>
     </form>
+
+    {% with messages = get_flashed_messages() %} {% if messages %}
+        <script>
+            alert("{{ messages[0] }}"); // フラッシュメッセージをアラートで表示
+        </script>
+    {% endif %} {% endwith %}
+
 </body>
 </html>
