@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登録内容確認</title>
+</head>
+<body>
+    <p>登録内容確認</p>
+    <div>
+        <div>
+            <label>日付</label>
+            <span>{{ session['exercise_date'] }}</span>
+        </div>
+        <div>
+            <label>運動時間(分)</label>
+            <span>{{ session['exercise_time']}}</span>
+        </div>
+        <div>
+            <label>運動内容</label>
+            <span>{{ session['exercise_detail']}}</span>
+        </div>
+
+    </div>
+    <a href="{{url_for('health.exercise_record')}}">修正</a>
+    <a href="{{url_for('health.exercise_record_execute')}}">登録</a>
+</body>
+</html>
