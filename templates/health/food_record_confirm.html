@@ -24,8 +24,13 @@
         </div>
         <div>
             <label>食事内容</label>
-            <span>{{ session['meal_detail'] }}</span>
+            <ul>
+                {% for item in session['meal_detail'] %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
         </div>
+
     </div>
     <a href="{{url_for('health.food_record')}}">修正</a>
     <a href="{{url_for('health.food_record_execute')}}">登録</a>
