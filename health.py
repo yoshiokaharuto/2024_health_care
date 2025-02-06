@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, Blueprint, request, session, flash
 import db, string, random
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField,DateField,SelectField,FieldList
+from wtforms import StringField, PasswordField, SubmitField,DateField,SelectField,FieldList,FloatField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, NumberRange
 from flask_login import login_required
 from flask_login import current_user
@@ -25,7 +25,22 @@ class FoodRecord(FlaskForm):
         min_entries=1
     )
     submit = SubmitField('記録')
+
+class ExerciseRecord(FlaskForm):
+    date = DateField(
+        '日付',
+        validators=[DataRequired(message='日付が未入力です。')],
+        format='%Y-%m-%d'
+    )
+    exercise_time = FloatField(
+        '1日の運動時間',
+        validators=[DataRequired(message='1日の運動時間が未入力です'),NumberRange(min=0,max=24)]
+    )
+    exercise_detail = StringField(
+        '食事内容',
+        validators=[DataRequired()])
     
+    submit = SubmitField('記録')
 
 @health_bp.route('/food_record',methods=['GET','POST'])
 def food_record():
@@ -70,3 +85,8 @@ def food_record_execute():
 
     flash("食事記録が完了しました！", "success")
     return redirect(url_for('user_top'))
+
+@health_bp.route('exercise_record',methods=['GET','POST'])
+def exercise_record():
+    form=ExerciseRecord()
+    return render_template('health/exercise_record.html',form=form)
