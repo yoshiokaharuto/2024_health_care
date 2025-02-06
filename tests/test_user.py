@@ -13,7 +13,7 @@ def client():
 def test_sign_up_page(client):
     response = client.get('/user/sign_up')
     assert response.status_code == 200
-    assert '新規登録' in response.data.decode('utf-8') #ページ内に含まれている文字列確認
+    assert '新規登録' in response.data.decode('utf-8') 
     
 
 def test_sign_up_confirm_page(client):
@@ -26,7 +26,7 @@ def test_sign_up_confirm_page(client):
         'password_confirm': 'password123',
     }, follow_redirects=True)
     assert response.status_code == 200
-    assert b"test@example.com" in response.data  # 確認画面にメールアドレスが表示される
+    assert b"test@example.com" in response.data 
     
 
 def test_sign_up_execute(client):
@@ -42,8 +42,7 @@ def test_sign_up_execute(client):
 
 @pytest.fixture
 def new_user():
-    with app.app_context():  # アプリケーションコンテキストを確保
-        # テスト用のユーザーデータを準備
+    with app.app_context():  
         salt = "random_salt"
         hashed_password = hashlib.pbkdf2_hmac(
             'sha256', 'password123'.encode('utf-8'), salt.encode('utf-8'), 1000
@@ -60,9 +59,8 @@ def new_user():
         db.session.add(user)
         db.session.commit()
 
-        yield user  # フィクスチャとしてユーザーを返す
+        yield user
 
-        # テスト終了後、データベースから削除
         db.session.delete(user)
         db.session.commit()
 
