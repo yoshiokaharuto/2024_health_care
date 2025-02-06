@@ -87,3 +87,20 @@ def insert_meal_item(meal_id,meal_detail):
         cursor.close()
         connection.close()
     return result
+
+def insert_exercise_record(user_id,date,exercise_time,exercise_detail):
+    
+    sql = "INSERT INTO exercise_records VALUES (default,%s,%s,%s,%s)"
+    
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+        cursor.execute(sql,(user_id,date,exercise_detail,exercise_time))
+        count = cursor.rowcount
+        connection.commit()
+    except psycopg2.DatabaseError:
+        count = 0
+    finally:
+        cursor.close()
+        connection.close()
+    return count 
