@@ -171,3 +171,11 @@ def health_record_execute():
         return redirect(url_for('user_top'))
     else:
         return render_template('health/health_record.html',form=form)
+
+@health_bp.route('/meal_search',methods=['GET','POST'])
+def meal_search():
+    user_id = current_user.get_id()
+    meal_list = db.meal_list(user_id)
+    print(user_id)
+    print(meal_list)
+    return render_template('health/health_search.html',result = meal_list)
