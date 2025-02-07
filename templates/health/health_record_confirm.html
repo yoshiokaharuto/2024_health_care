@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登録内容確認</title>
+</head>
+<body>
+    <p>登録内容確認</p>
+    <div>
+        <div>
+            <label>日付</label>
+            <span>{{ session['exercise_date'] }}</span>
+        </div>
+        <div>
+            <label>睡眠時間(時間)</label>
+            <span>{{ session['sleep_time']}}</span>
+        </div>
+        <div>
+            <label>体重</label>
+            <span>{{ session['weight']}}</span>
+        </div>
+        <div>
+            <label>水分摂取量</label>
+            <span>{{ session['water_intake']}}</span>
+        </div>
+
+    </div>
+    <a href="{{url_for('health.health_record')}}">修正</a>
+    <a href="{{url_for('health.health_record_execute')}}">登録</a>
+</body>
+</html>
