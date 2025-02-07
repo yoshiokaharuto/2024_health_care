@@ -136,3 +136,18 @@ def meal_list(user_id):
     cursor.close()
     
     return rows
+
+def meal_search(user_id,meal_date):
+    sql = "SELECT meals.date, meals.meal_type, meal_items.food_name FROM meals INNER JOIN meal_items ON meals.meal_id = meal_items.meal_id WHERE meals.user_id =%s AND meals.date = %s;"
+    
+    connection = get_connection()
+    cursor  = connection.cursor()
+    
+    cursor.execute(sql,(user_id,meal_date))
+    
+    rows = cursor.fetchall()
+    
+    connection.close()
+    cursor.close()
+    
+    return rows
