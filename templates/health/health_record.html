@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>健康記録</title>
+</head>
+<body>
+    <p>健康記録</p>
+    
+    <form action="{{url_for('health.health_record_confirm')}}" method='post'>
+        {{form.hidden_tag()}}
+
+        <div>
+            {{form.date.label}}
+            {{form.date(class='form-control',size=32)}}
+            {% for error in form.date.errors %}
+            <span style="color:red">{{error}}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{form.sleep_time.label}}
+            {{form.sleep_time(class='form-control',size=32)}}
+            {% for error in form.sleep_time.errors %}
+            <span style="color:red">{{error}}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{form.weight.label}}
+            {{form.weight(class='form-control',size=32)}}
+            {% for error in form.weight.errors %}
+            <span style="color:red">{{error}}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{form.water_intake.label}}
+            {{form.water_intake(class='form-control',size=32)}}
+            {% for error in form.water_intake.errors %}
+            <span style="color:red">{{error}}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{form.submit(class='btn btn-primary')}}
+        </div>
+    </form>
+</body>
+</html>
