@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>食事一覧</title>
+</head>
+<body>
+    <p>食事記録一覧</p>
+    <table>
+        <tr>
+            <th>日付</th>
+            <th>種類</th>
+            <th>内容</th>
+        </tr>
+        {% for r in result%}
+        <tr>
+            <td>{{r[0]}}</td>
+            <td>
+                {% if r[1] == "1" %}
+                    朝食
+                {% elif r[1] == "2" %}
+                    昼食
+                {% elif r[1] == "3" %}
+                    夕食
+                {% else %}
+                    その他
+                {% endif %}
+            </td>
+            <td>{{r[2]}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
