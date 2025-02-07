@@ -121,3 +121,18 @@ def insert_health_record(user_id,date,sleep_time,weight,water_intake):
         cursor.close()
         connection.close()
     return count 
+
+def meal_list(user_id):
+    sql = "SELECT meals.date, meals.meal_type, meal_items.food_name FROM meals INNER JOIN meal_items ON meals.meal_id = meal_items.meal_id WHERE meals.user_id =%s;"
+    
+    connection = get_connection()
+    cursor  = connection.cursor()
+    
+    cursor.execute(sql,(user_id,))
+    
+    rows = cursor.fetchall()
+    
+    connection.close()
+    cursor.close()
+    
+    return rows
