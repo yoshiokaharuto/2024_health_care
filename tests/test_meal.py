@@ -1,6 +1,7 @@
 import pytest
+import db
 from flask import url_for
-from app import app, db, HealthUsers
+from app import app,db, HealthUsers
 from health import FoodRecord
 from datetime import date
 
@@ -60,3 +61,21 @@ def test_food_record_execute(client, logged_in_user):
     
     assert response.status_code == 302
     
+def test_meal_search_page_get(client, logged_in_user):
+    """食事検索ページ（GET）のテスト"""
+    response = client.get('/health/meal_search')
+    assert response.status_code == 200
+
+def test_meal_search_page_post(client, logged_in_user):
+    """食事検索ページ（POST）のテスト"""
+    # 日付のフォームを送信して検索結果を得る
+    response = client.post('/health/meal_search', data={
+        'meal_date': '2025-02-05'
+    }, follow_redirects=True)
+    
+    assert response.status_code == 200
+
+    # # データベースからの検索結果が正しく表示されることを確認する
+    # # FoodRecord クラスを使って検索を行う
+    # meal_list = db.meal_search(logged_in_user.user_id, '2025-02-05')
+    # assert len(meal_list) > 0  # 検索結果が空でないことを確認
