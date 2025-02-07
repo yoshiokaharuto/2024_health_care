@@ -104,3 +104,20 @@ def insert_exercise_record(user_id,date,exercise_time,exercise_detail):
         cursor.close()
         connection.close()
     return count 
+
+def insert_health_record(user_id,date,sleep_time,weight,water_intake):
+    
+    sql = "INSERT INTO health_records VALUES (default,%s,%s,%s,%s,%s)"
+    
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+        cursor.execute(sql,(user_id,date,sleep_time,weight,water_intake))
+        count = cursor.rowcount
+        connection.commit()
+    except psycopg2.DatabaseError:
+        count = 0
+    finally:
+        cursor.close()
+        connection.close()
+    return count 
