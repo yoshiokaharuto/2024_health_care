@@ -42,6 +42,26 @@ class ExerciseRecord(FlaskForm):
     
     submit = SubmitField('記録')
 
+class HealthRecord(FlaskForm):
+    date = DateField(
+        '日付',
+        validators=[DataRequired(message='日付が未入力です。')],
+        format='%Y-%m-%d'
+    )
+    sleep_time = FloatField(
+        '睡眠時間(時間)',
+        validators=[DataRequired(message='睡眠時間が未入力です'),NumberRange(min=0)]
+    )
+    weight = FloatField(
+        '体重(kg)',
+        validators=[DataRequired(message='体重が未入力です'),NumberRange(min=0)]
+    )
+    water_intake = FloatField(
+        '水分摂取量(ml)',
+        validators=[DataRequired(message='水分摂取量が未入力です'),NumberRange(min=0)]
+    )
+    submit = SubmitField('記録')
+
 @health_bp.route('/food_record',methods=['GET','POST'])
 def food_record():
     form = FoodRecord()
@@ -117,3 +137,37 @@ def exercise_record_execute():
     else:
         return render_template('health/exercise_record.html',form=form)
     
+@health_bp.route('/health_record',methods=['GET','POST'])
+def health_record():
+    form=HealthRecord()
+    return render_template('health/health_record.html',form=form)
+
+@health_bp.route('/health_record_confirm',methods=['post'])
+def health_record_confirm():
+    form=HealthRecord()
+    
+    if form.validate_on_submit():
+        session['health_date'] = form.date.data
+        session['sleep_time'] = form.sleep_time.data
+        session['weight'] = form.weight.data
+        session['water_intake'] = form.water_intake.data
+        return render_template('health/health_record_confirm.html')
+    else:
+        return render_template('health/health_record.html',form=form)
+
+@health_bp.route('/health_record_execute')
+def health_record_execute():
+    form= HealthRecord()
+    date = session.get('health_date')
+    sleep_time = session.get('sleep_time')
+    weight = session.get('weight')
+    water_intake=session.get('water_intake')
+    user_id = current_user.get_id()
+    
+    count = db.insert_health_record(user_id, date, sleep_time, weight,water_intake)
+
+    if count == 1:
+        flash("健康を記録しました",)
+        return redirect(url_for('user_top'))
+    else:
+        return render_template('health/health_record.html',form=form)
