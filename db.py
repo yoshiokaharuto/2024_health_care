@@ -151,3 +151,33 @@ def meal_search(user_id,meal_date):
     cursor.close()
     
     return rows
+
+def health_list(user_id):
+    sql = "SELECT date,sleep_hours,weight,water_intake FROM health_records WHERE user_id = %s;"
+    
+    connection = get_connection()
+    cursor  = connection.cursor()
+    
+    cursor.execute(sql,(user_id,))
+    
+    rows = cursor.fetchall()
+    
+    connection.close()
+    cursor.close()
+    
+    return rows
+
+def health_search(user_id,health_date):
+    sql = "SELECT date,sleep_hours,weight,water_intake FROM health_records WHERE user_id = %s AND date = %s;"
+    
+    connection = get_connection()
+    cursor  = connection.cursor()
+    
+    cursor.execute(sql,(user_id,health_date))
+    
+    rows = cursor.fetchall()
+    
+    connection.close()
+    cursor.close()
+    
+    return rows

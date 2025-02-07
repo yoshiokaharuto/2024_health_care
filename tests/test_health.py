@@ -56,3 +56,15 @@ def test_exercise_record_execute(client, logged_in_user):
     
     response = client.get('/health/health_record_execute', follow_redirects=False)
     assert response.status_code == 302
+    
+
+def test_meal_search_page_get(client, logged_in_user):
+    response = client.get('/health/health_search')
+    assert response.status_code == 200
+
+def test_meal_search_page_post(client, logged_in_user):
+    response = client.post('/health/health_search', data={
+        'health_date': '2025-02-05'
+    }, follow_redirects=True)
+    
+    assert response.status_code == 200

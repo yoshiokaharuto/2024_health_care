@@ -74,8 +74,3 @@ def test_meal_search_page_post(client, logged_in_user):
     }, follow_redirects=True)
     
     assert response.status_code == 200
-
-    # # データベースからの検索結果が正しく表示されることを確認する
-    # # FoodRecord クラスを使って検索を行う
-    # meal_list = db.meal_search(logged_in_user.user_id, '2025-02-05')
-    # assert len(meal_list) > 0  # 検索結果が空でないことを確認
