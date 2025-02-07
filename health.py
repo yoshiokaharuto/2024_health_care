@@ -69,6 +69,13 @@ class MealSearch(FlaskForm):
     )
     submit = SubmitField('検索')
 
+class HealthSearch(FlaskForm):
+    health_date = DateField(
+        '日付',
+        format='%Y-%m-%d'
+    )
+    submit = SubmitField('検索')
+
 @health_bp.route('/food_record',methods=['GET','POST'])
 def food_record():
     form = FoodRecord()
@@ -191,4 +198,17 @@ def meal_search():
         print(meal_date)
         meal_list = db.meal_search(user_id,meal_date)
         
-    return render_template('health/health_search.html',result = meal_list,form=form)
+    return render_template('health/food_search.html',result = meal_list,form=form)
+
+@health_bp.route('/health_search',methods=['GET','POST'])
+def health_search():
+    form = HealthSearch()
+    user_id = current_user.get_id()
+    
+    if request.method == "GET":
+        health_list = db.health_list(user_id)
+    else:
+        health_date = form.health_date.data
+        health_list = db.health_search(user_id,health_date)
+        
+    return render_template('health/health_search.html',result = health_list,form=form)
