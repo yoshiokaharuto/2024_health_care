@@ -1,5 +1,6 @@
-from flask import Flask, render_template, redirect, url_for, Blueprint, request, session, flash
+from flask import Flask, render_template, redirect, url_for, Blueprint, request, session, flash,jsonify
 import db, string, random
+import numpy
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField,DateField,SelectField,FieldList,FloatField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, NumberRange
@@ -212,3 +213,29 @@ def health_search():
         health_list = db.health_search(user_id,health_date)
         
     return render_template('health/health_search.html',result = health_list,form=form)
+
+@health_bp.route('/exercise_search', methods=['GET', 'POST'])
+def exercise_search():
+    return render_template('health/exercise_search.html')
+
+def fetch_data():
+    user_id = current_user.get_id()
+    data = db.fetch_data(user_id)
+    return [{"date": str(row[0]), "exercise_duration": row[1]} for row in data]
+
+@health_bp.route('/exercise_data')
+def exercise_data():
+    data = fetch_data()
+
+    # 運動時間リストを作成
+    durations = numpy.array([entry["exercise_duration"] for entry in data])
+
+    # 合計 & 平均を計算
+    total_duration = numpy.sum(durations) 
+    average_duration = numpy.mean(durations) 
+
+    return jsonify({
+        "data": data,
+        "total_duration": int(total_duration),  
+        "average_duration": round(float(average_duration), 2) 
+    })
