@@ -181,3 +181,18 @@ def health_search(user_id,health_date):
     cursor.close()
     
     return rows
+
+def fetch_data(user_id):
+    sql = "SELECT date, exercise_duration FROM exercise_records WHERE user_id = %s ORDER BY date"
+    
+    connection = get_connection()
+    cursor = connection.cursor()
+    
+    cursor.execute(sql,(user_id))
+    
+    rows = cursor.fetchall()
+    
+    connection.close()
+    cursor.close()
+    
+    return rows
