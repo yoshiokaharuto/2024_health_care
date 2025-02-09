@@ -13,17 +13,15 @@
 
     <script>
         async function fetchExerciseData() {
-            const response = await fetch("/health/exercise_data"); 
+            const response = await fetch("/health/exercise_data");
+            const result = await response.json();
 
-            // 日付と運動時間を配列に変換
             const labels = result.data.map(item => item.date);
             const exerciseDurations = result.data.map(item => item.exercise_duration);
 
-            // 合計 & 平均の表示を更新
             document.getElementById("totalDuration").textContent = result.total_duration;
             document.getElementById("averageDuration").textContent = result.average_duration;
 
-            // グラフを描画
             const ctx = document.getElementById("exerciseChart").getContext("2d");
             new Chart(ctx, {
                 type: "line",
