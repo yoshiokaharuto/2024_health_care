@@ -54,3 +54,31 @@ def test_exercise_record_execute(client, logged_in_user):
     
     response = client.get('/health/exercise_record_execute', follow_redirects=False)
     assert response.status_code == 302
+    
+def test_exercise_search_page(client, logged_in_user):
+    response = client.get('/health/exercise_search')
+    
+    assert response.status_code == 200
+    assert "運動記録の推移" in response.data.decode('utf-8')
+
+
+def test_exercise_data(client, logged_in_user):
+    response = client.get('/health/exercise_data')
+    
+    assert response.status_code == 200
+    
+
+    data = response.get_json()
+    
+    assert "data" in data
+    assert "total_duration" in data
+    assert "average_duration" in data
+    
+    assert isinstance(data["data"], list)
+    
+    if len(data["data"]) > 0:
+        assert "date" in data["data"][0]
+        assert "exercise_duration" in data["data"][0]
+        
+    assert isinstance(data["total_duration"], int)
+    assert isinstance(data["average_duration"], (float, int))
