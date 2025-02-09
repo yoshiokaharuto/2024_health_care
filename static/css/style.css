@@ -21,7 +21,6 @@ body {
     width: 35%;
     height: 45px; 
     box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.4);
-
     margin: 0.7rem 0;
 }
 .form-control:hover{
@@ -68,6 +67,7 @@ body {
     width: 83px;
     height: 30px;
     border-radius: 0.5rem;
+    border:none;
     box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.4);
     transition: border-color 0.3s ease-in-out;
 }
