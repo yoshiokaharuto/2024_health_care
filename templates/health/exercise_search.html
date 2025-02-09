@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>運動記録グラフ</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js 読み込み -->
+</head>
+<body>
+    <h1>運動記録の推移</h1>
+
+    <canvas id="exerciseChart" width="500px" height="400px"></canvas> 
+
+    <script>
+        async function fetchExerciseData() {
+            const response = await fetch("/health/exercise_data");
+            const result = await response.json();
+
+            const labels = result.data.map(item => item.date);
+            const exerciseDurations = result.data.map(item => item.exercise_duration);
+
+            document.getElementById("totalDuration").textContent = result.total_duration;
+            document.getElementById("averageDuration").textContent = result.average_duration;
+
+            const ctx = document.getElementById("exerciseChart").getContext("2d");
+            new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: "運動時間 (minutes)",
+                        data: exerciseDurations,
+                        borderColor: "blue",
+                        backgroundColor: "rgba(0, 0, 255, 0.2)",
+                        borderWidth: 2,
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    scales: {
+                        x: {
+                            title: { display: true, text: "日付" }
+                        },
+                        y: {
+                            title: { display: true, text: "運動時間(分)" }
+                        }
+                    }
+                }
+            });
+        }
+
+        fetchExerciseData();
+    </script>
+
+    <p>運動時間の合計: <span id="totalDuration">--</span> 分</p>
+    <p>運動時間の平均: <span id="averageDuration">--</span> 分/日</p>
+
+</body>
+</html>

@@ -1,5 +1,6 @@
-from flask import Flask, render_template, redirect, url_for, Blueprint, request, session, flash
+from flask import Flask, render_template, redirect, url_for, Blueprint, request, session, flash,jsonify
 import db, string, random
+import numpy
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField,DateField,SelectField,FieldList,FloatField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, NumberRange
@@ -89,7 +90,6 @@ def food_record_confirm():
         session['date'] = form.date.data
         session['meal_type'] = form.meal_type.data
         session['meal_detail'] = list(form.meal_detail.data)
-        print("Session data:", session['meal_detail'])
         return render_template('health/food_record_confirm.html', form=form)
     
     return render_template('health/food_record.html', form=form)
@@ -195,7 +195,6 @@ def meal_search():
         meal_list = db.meal_list(user_id)
     else:
         meal_date = form.meal_date.data
-        print(meal_date)
         meal_list = db.meal_search(user_id,meal_date)
         
     return render_template('health/food_search.html',result = meal_list,form=form)
@@ -212,3 +211,45 @@ def health_search():
         health_list = db.health_search(user_id,health_date)
         
     return render_template('health/health_search.html',result = health_list,form=form)
+
+@health_bp.route('/exercise_search', methods=['GET', 'POST'])
+def exercise_search():
+    return render_template('health/exercise_search.html')
+
+def fetch_data():
+    user_id = current_user.get_id()
+    data = db.fetch_data(user_id)
+    
+    return [{"date": row[0].isoformat(), "exercise_duration": row[1]} for row in data]
+
+def fetch_data():
+    user_id = current_user.get_id()
+
+    if not user_id:
+        return []
+
+    data = db.fetch_data(user_id)
+
+    formatted_data = [{"date": row[0].isoformat(), "exercise_duration": row[1]} for row in data]
+
+    return formatted_data
+
+@health_bp.route('/exercise_data')
+def exercise_data():
+    data = fetch_data()
+    if not data:
+        return jsonify({
+            "data": [],
+            "total_duration": 0,
+            "average_duration": 0
+        })
+
+    durations = numpy.array([entry["exercise_duration"] for entry in data])
+    total_duration = numpy.sum(durations) 
+    average_duration = numpy.mean(durations)
+
+    return jsonify({
+        "data": data,
+        "total_duration": int(total_duration),  
+        "average_duration": round(float(average_duration), 2) 
+    })
