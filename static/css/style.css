@@ -1,0 +1,51 @@
+body {
+    font-family: "Noto Sans JP", system-ui;
+}
+.top_title{
+    margin: 0.7rem 0 0 0.5rem;
+}
+.sub_title{
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+.login_form{
+    text-align: center;
+}
+.form-control{
+    color:black;
+    font-size: 1.1rem;
+    border-radius: 0.5rem;
+    border: 3px solid #82ffb2;   /* すべての枠線を黒色に設定 */
+    outline: none;             /* フォーカス時のアウトラインを消す */ 
+    width: 370px;
+    height: 45px; 
+    box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.4);
+
+    margin: 1.0rem 0;
+}
+.button{
+    margin-top: 10px;
+    border:none;
+    background-color: #22C55E;
+    font-size: 1.1rem;
+    color:white;
+    width: 130px;
+    height: 55px;
+    border-radius: 0.5rem;
+    box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.4);
+}
+.register{
+    margin-top: 1.6rem;
+    text-align: center;
+}
+.account_register{
+    font-size: 1.4rem;
+    color: #627CFF;
+    text-decoration: none;
+}
+.error{
+    font-size: 1.1rem;
+    text-align: center;
+    margin: 0.5rem;
+}
