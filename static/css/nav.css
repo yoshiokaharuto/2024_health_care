@@ -1,0 +1,47 @@
+body {
+  margin: 0;
+  font-family: "Noto Sans JP";
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  width: 90%; /* ヘッダーの横幅を画面幅の90%に設定 */
+  margin: 1rem auto; /* 左右の余白を自動にして中央揃え */
+  padding: 13px 20px; /* 内側の余白を設定 */
+  border-radius: 15px; /* 必要なら角丸も追加 */
+  background: linear-gradient(to bottom right, #CBFFE7,#C2F8FF)
+}
+
+.home {
+  font-size: 1.5em;
+  font-weight: bold;
+  text-decoration: none;
+  color:black
+}
+
+.nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 15px;
+}
+
+.nav ul li {
+  display: inline;
+  font-weight: bold;
+}
+
+.nav ul li a {
+  color: black;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: color 0.3s;
+}
+
+.nav ul li a:hover {
+  color: #5f5f5f;
+}
