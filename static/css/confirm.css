@@ -24,13 +24,12 @@
 .label{
     font-size: 1.1rem;
     text-align: left;
-    margin-left: 4rem;
+    margin-left: 7rem;
+    width: 190px; 
 }
 .element{
     font-size: 1.1rem;
     font-weight: bold;
-    text-align: left;
-    margin-left: 1rem;
 }
 .exe_button{
     margin: 10px 13px 1px 0;;
