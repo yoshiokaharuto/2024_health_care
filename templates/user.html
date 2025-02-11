@@ -3,24 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0" />
+    <link rel="stylesheet" href="{{url_for('static',filename = 'css/style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename = 'css/nav.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename = 'css/user.css')}}">
     <title>健康管理アプリ</title>
 </head>
 <body>
-    <h1>健康管理アプリ</h1>
-    <a href="{{url_for('health.food_record')}}">食事記録</a>
-    <a href="{{url_for('health.exercise_record')}}"> 運動記録</a>
-    <a href="{{url_for('health.health_record')}}"> 健康記録</a>
-    <a href="{{url_for('user.profile')}}">プロフィール</a>
-    <a href="{{url_for('logout')}}">ログアウト</a>
+  <header class="header">
+    <a href="{{url_for('user_top')}}" class="home">健康管理アプリ</a>
+    <nav class="nav">
+      <ul>
+        <li><a href="{{url_for('health.food_record')}}">食事記録</a></li>
+        <li><a href="{{url_for('health.exercise_record')}}"> 運動記録</a></li>
+        <li><a href="{{url_for('health.health_record')}}"> 健康記録</a></li>
+        <li><a href="{{url_for('user.profile')}}">プロフィール</a></li>
+        <li><a href="{{url_for('logout')}}">ログアウト</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <a href="{{url_for('health.meal_search')}}">食事状況</a>
-    <a href="{{url_for('health.health_search')}}">健康状況</a>
-    <a href="{{url_for('health.exercise_search')}}">運動状況</a>
+  <div class="situation">
+    <div class="block">
+      <a href="{{url_for('health.exercise_search')}}">
+        <p class="block_title">今日の運動状況</p>
+        {% for e in exercise %}
+          <span>{{e[0]}}</span>
+          <span>{{e[1]}}分</span>
+        {% endfor %}
+      </a>
+    </div>
 
-    {% with messages = get_flashed_messages() %} {% if messages %}
+    <div class="block">
+      <a href="{{url_for('health.meal_search')}}">
+        <p class="block_title">今日の食事状況</p>
+        {% for m in meal %}
+        <div>
+          <span> 
+            {% if m[0] == "1" %}
+              朝食
+            {% elif m[0] == "2" %}
+              昼食
+            {% elif m[0] == "3" %}
+              夕食
+            {% else %}
+              その他
+            {% endif %}
+          </span>
+          <span>{{m[1]}}</span>
+        </div>
+        {% endfor %}
+      </a>
+    </div>
+  
+    <div class="block">
+      <a href="{{url_for('health.health_search')}}">
+        <p class="block_title">健康状況</p>
+        <div class="health_labe">
+          <label>睡眠時間</label>
+          <span>{{health[0]}}時間</span>
+        </div>
+        <div class="health_label">
+          <label>体重</label>
+          <span>{{health[1]}}kg</span>
+        </div>
+        <div class="health_label">
+          <label>水分摂取量</label>
+          <span>{{health[2]}}ml</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="goal">
+    <p class="block_title">健康目標</p>
+    <p class="graph_title">睡眠時間  目標:{{goal[1]}}時間/昨日:{{health[0]}}時間</p>
+    <progress id="progress" value="{{health[0]}}" max="{{goal[1]}}"></progress>
+    <p class="graph_title">運動時間  目標:{{goal[2]}}分/昨日:{{exercise_time[0]}}分</p>
+    <progress id="progress" value="{{exercise_time[0]}}" max="{{goal[2]}}"></progress>
+  </div>
+
+  {% with messages = get_flashed_messages() %} {% if messages %}
     <script>
       alert("{{ messages[0] }}"); // フラッシュメッセージをアラートで表示
     </script>
-    {% endif %} {% endwith %}
+  {% endif %} {% endwith %}
 </body>
 </html>
