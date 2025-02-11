@@ -196,3 +196,78 @@ def fetch_data(user_id):
     cursor.close()
     
     return rows
+
+def today_exercise(user_id):
+    sql = "SELECT exercise_type, exercise_duration FROM exercise_records WHERE user_id = %s AND date = current_date;"
+    
+    connection = get_connection()
+    cursor = connection.cursor()
+    
+    cursor.execute(sql,(user_id,))
+    
+    rows = cursor.fetchall()
+    
+    connection.close()
+    cursor.close()
+    
+    return rows
+
+def today_meal(user_id):
+    sql = "SELECT meals.meal_type, meal_items.food_name FROM meals INNER JOIN meal_items ON meals.meal_id = meal_items.meal_id WHERE meals.user_id =%s AND meals.date = current_date;"
+    
+    connection = get_connection()
+    cursor  = connection.cursor()
+    
+    cursor.execute(sql,(user_id,))
+    
+    rows = cursor.fetchall()
+    
+    connection.close()
+    cursor.close()
+    
+    return rows
+
+def health_data(user_id):
+    sql = "select sleep_hours,weight,water_intake from health_records where user_id = %s AND date = CURRENT_DATE - INTERVAL '1 day';"
+    
+    connection = get_connection()
+    cursor  = connection.cursor()
+    
+    cursor.execute(sql,(user_id,))
+    
+    rows = cursor.fetchone()
+    
+    connection.close()
+    cursor.close()
+    
+    return rows
+
+def goal_data(user_id):
+    sql = "SELECT goal_weight,goal_sleep_time,daily_exercise FROM profiles WHERE user_id = %s;"
+    
+    connection = get_connection()
+    cursor  = connection.cursor()
+    
+    cursor.execute(sql,(user_id,))
+    
+    rows = cursor.fetchone()
+    
+    connection.close()
+    cursor.close()
+    
+    return rows
+
+def exercise_time(user_id):
+    sql = "SELECT COALESCE(SUM(exercise_duration), 0) AS total_exercise_time FROM exercise_records  WHERE user_id = %s AND date = CURRENT_DATE;"
+    
+    connection = get_connection()
+    cursor  = connection.cursor()
+    
+    cursor.execute(sql,(user_id,))
+    
+    row = cursor.fetchone()
+    
+    connection.close()
+    cursor.close()
+    
+    return row
