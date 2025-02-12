@@ -3,58 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0" />
+    <link rel="stylesheet" href="{{url_for('static',filename = 'css/style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename = 'css/nav.css')}}">
     <title>プロフィール</title>
 </head>
 <body>
-    <h1>プロフィール管理</h1>
+    <header class="header">
+        <a href="{{url_for('user_top')}}" class="home">健康管理アプリ</a>
+        <nav class="nav">
+            <ul>
+                <li><a href="{{url_for('health.food_record')}}">食事記録</a></li>
+                <li><a href="{{url_for('health.exercise_record')}}"> 運動記録</a></li>
+                <li><a href="{{url_for('health.health_record')}}"> 健康記録</a></li>
+                <li><a href="{{url_for('user.profile')}}">プロフィール</a></li>
+                <li><a href="{{url_for('logout')}}">ログアウト</a></li>
+            </ul>
+        </nav>
+    </header>
+    <p class="sub_title">プロフィール管理</p>
 
-    <form action="{{url_for('user.profile_confirm')}}" method="POST" novalidate>
+    <form action="{{url_for('user.profile_confirm')}}" method="POST" novalidate class="login_form" >
         {{form.hidden_tag()}}
 
         <div>
-            {{form.birthday.label}}
-            {{form.birthday(class='form-control',size='32')}}
+            {{form.birthday(class='form',size='32',placeholder="生年月日")}}
             {% for error in form.birthday.errors %}
             <span style="color:red;">{{error}}</span>
             {% endfor %}
         </div>
         <div>
-            {{form.height.label}}
-            {{form.height(class='form-control',size='32')}}
+            {{form.height(class='form',size='32',placeholder="身長")}}
             {% for error in form.height.errors %}
             <span style="color:red;">{{error}}</span>
             {% endfor %}
         </div>
         <div>
-            {{form.weight.label}}
-            {{form.weight(class='form-control',size='32')}}
+            {{form.weight(class='form',size='32',placeholder="体重")}}
             {% for error in form.weight.errors %}
             <span style="color:red;">{{error}}</span>
             {% endfor %}
         </div>
         <div>
-            {{form.target_weight.label}}
-            {{form.target_weight(class='form-control',size='32')}}
+            {{form.target_weight(class='form',size='32',placeholder="目標体重")}}
             {% for error in form.target_weight.errors %}
             <span style="color:red;">{{error}}</span>
             {% endfor %}
         </div>
         <div>
-            {{form.target_sleep.label}}
-            {{form.target_sleep(class='form-control',size='32')}}
+            {{form.target_sleep(class='form',size='32',placeholder="目標睡眠時間(時間)")}}
             {% for error in form.target_sleep.errors %}
             <span style="color:red;">{{error}}</span>
             {% endfor %}
         </div>
         <div>
-            {{form.daily_excercise.label}}
-            {{form.daily_excercise(class='form-control',size='32')}}
+            {{form.daily_excercise(class='form',size='32',placeholder="1日の運動時間(分)")}}
             {% for error in form.daily_excercise.errors %}
             <span style="color:red;">{{error}}</span>
             {% endfor %}
         </div> 
         <div>
-            {{form.submit(class='btn btn-primary')}}
+            {{form.submit(class='button')}}
         </div>
     </form>
 </body>
