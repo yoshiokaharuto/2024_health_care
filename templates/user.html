@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{url_for('static',filename = 'css/style.css')}}">
     <link rel="stylesheet" href="{{url_for('static',filename = 'css/nav.css')}}">
     <link rel="stylesheet" href="{{url_for('static',filename = 'css/user.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename = 'css/confirm.css')}}">
     <title>健康管理アプリ</title>
 </head>
 <body>
@@ -29,8 +30,10 @@
       <a href="{{url_for('health.exercise_search')}}">
         <p class="block_title">今日の運動状況</p>
         {% for e in exercise %}
-          <span>{{e[0]}}</span>
-          <span>{{e[1]}}分</span>
+          <div>
+            <span class="element">{{e[0]}}</span>
+            <span class="element">{{e[1]}}分</span>
+          </div>
         {% endfor %}
       </a>
     </div>
@@ -39,8 +42,8 @@
       <a href="{{url_for('health.meal_search')}}">
         <p class="block_title">今日の食事状況</p>
         {% for m in meal %}
-        <div>
-          <span> 
+        <div class="health_label">
+          <span class="element"> 
             {% if m[0] == "1" %}
               朝食
             {% elif m[0] == "2" %}
@@ -51,7 +54,7 @@
               その他
             {% endif %}
           </span>
-          <span>{{m[1]}}</span>
+          <span class="element">{{m[1]}}</span>
         </div>
         {% endfor %}
       </a>
@@ -60,17 +63,17 @@
     <div class="block">
       <a href="{{url_for('health.health_search')}}">
         <p class="block_title">健康状況</p>
-        <div class="health_labe">
-          <label>睡眠時間</label>
-          <span>{{health[0]}}時間</span>
+        <div class="health_label">
+          <label class="element">睡眠時間</label>
+          <span class="element">{{health[0]}}時間</span>
         </div>
         <div class="health_label">
-          <label>体重</label>
-          <span>{{health[1]}}kg</span>
+          <label class="element">体重</label>
+          <span class="element">{{health[1]}}kg</span>
         </div>
         <div class="health_label">
-          <label>水分摂取量</label>
-          <span>{{health[2]}}ml</span>
+          <label class="element">水分摂取量</label>
+          <span class="element">{{health[2]}}ml</span>
         </div>
       </a>
     </div>
