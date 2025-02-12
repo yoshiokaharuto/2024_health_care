@@ -3,38 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0" />
+    <link rel="stylesheet" href="{{url_for('static',filename = 'css/style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename = 'css/nav.css')}}">
     <title>運動記録</title>
 </head>
 <body>
+    <header class="header">
+        <a href="{{url_for('user_top')}}" class="home">健康管理アプリ</a>
+        <nav class="nav">
+            <ul>
+                <li><a href="{{url_for('health.food_record')}}">食事記録</a></li>
+                <li><a href="{{url_for('health.exercise_record')}}"> 運動記録</a></li>
+                <li><a href="{{url_for('health.health_record')}}"> 健康記録</a></li>
+                <li><a href="{{url_for('user.profile')}}">プロフィール</a></li>
+                <li><a href="{{url_for('logout')}}">ログアウト</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <p>運動記録</p>
+    <p class="sub_title">運動記録</p>
 
-    <form action="{{url_for('health.exercise_record_confirm')}}" method='post'>
+    <form action="{{url_for('health.exercise_record_confirm')}}" method='post' class="login_form">
         {{form.hidden_tag()}}
 
         <div>
-            {{form.date.label}}
-            {{form.date(class='form-control',size=32)}}
+            {{form.date(class='form-control',size=32,placeholder='日付')}}
             {% for error in form.date.errors %}
             <span style="color:red">{{error}}</span>
             {% endfor %}
         </div>
         <div>
-            {{form.exercise_time.label}}
-            {{form.exercise_time(class='form-control',size=32)}}
+            {{form.exercise_time(class='form-control',size=32,placeholder='運動時間')}}
             {% for error in form.exercise_time.errors %}
             <span style="color:red">{{error}}</span>
             {% endfor %}
         </div>
         <div>
-            {{form.exercise_detail.label}}
-            {{form.exercise_detail(class='form-control',size=32)}}
+            {{form.exercise_detail(class='form-control',size=32,placeholder='運動内容')}}
             {% for error in form.exercise_detail.errors %}
             <span style="color:red">{{error}}</span>
             {% endfor %}
         </div>
         <div>
-            {{form.submit(class='btn btn-primary')}}
+            {{form.submit(class='button')}}
         </div>
     </form>
 </body>

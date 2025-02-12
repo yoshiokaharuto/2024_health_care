@@ -1,0 +1,50 @@
+.message{
+    text-align: center;
+    font-size: 1.2rem;
+    margin-top: 0.3rem;
+}
+.range{
+    background-color: #EEEEEE;
+    text-align: center;
+    width: 50%;
+    margin: 0 auto;
+    padding: 16px 2px 25px 2px;
+    border-radius: 0.5rem;
+    box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.4);
+
+    display: flex;
+    flex-direction: column;
+}
+.item{
+    margin: 0.4rem;
+    font-size: 1.1rem;
+    align-items: center;
+    display: flex;
+}
+.label{
+    font-size: 1.1rem;
+    text-align: left;
+    margin-left: 7rem;
+    width: 190px; 
+}
+.element{
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin: 5px;
+}
+.exe_button{
+    margin: 10px 13px 1px 0;;
+    padding: 10px 25px;
+    background-color: #22C55E;
+    text-decoration: none;
+    font-size: 1.25rem;
+    color:white;
+    width: 83px;
+    height: 30px;
+    border-radius: 0.5rem;
+    box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.4);
+    transition: border-color 0.3s ease-in-out;
+}
+.exe_button:hover{
+    border: 1px solid white;
+}

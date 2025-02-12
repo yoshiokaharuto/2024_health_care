@@ -20,9 +20,9 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'top'
 
-db = SQLAlchemy()
+db_model = SQLAlchemy()
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:9981@localhost/postgres'
-db.init_app(app)
+db_model.init_app(app)
 
 class UserLogin(FlaskForm):
     email = StringField(
@@ -36,13 +36,13 @@ class UserLogin(FlaskForm):
                       Length(min=6,message='パスワードは6文字以上で入力してください')])  
     submit = SubmitField('ログイン') 
 
-class HealthUsers(db.Model,UserMixin):
-    user_id = db.Column(db.Integer,primary_key=True)
-    email = db.Column(db.String(255),unique=True,nullable=False)
-    hashed_password = db.Column(db.String(255),nullable=False)
-    salt = db.Column(db.String(255),nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False)
-    updated_at = db.Column(db.DateTime, nullable=False)
+class HealthUsers(db_model.Model,UserMixin):
+    user_id = db_model.Column(db_model.Integer,primary_key=True)
+    email = db_model.Column(db_model.String(255),unique=True,nullable=False)
+    hashed_password = db_model.Column(db_model.String(255),nullable=False)
+    salt = db_model.Column(db_model.String(255),nullable=False)
+    created_at = db_model.Column(db_model.DateTime, nullable=False)
+    updated_at = db_model.Column(db_model.DateTime, nullable=False)
     
     def get_id(self):
         return str(self.user_id)
@@ -80,7 +80,15 @@ def login():
 @app.route('/user_top',methods=['GET'])
 @login_required
 def user_top():
-    return render_template('user.html')
+    user_id = current_user.get_id()
+    exercise = db.today_exercise(user_id)
+    meal = db.today_meal(user_id)
+    health = db.health_data(user_id)
+    goal = db.goal_data(user_id)
+    exercise_time = db.exercise_time(user_id)
+    print(f'eeeeee:{exercise_time}')
+    
+    return render_template('user.html',exercise=exercise,meal=meal,health=health,goal=goal,exercise_time=exercise_time)
 
 @app.route('/logout')
 @login_required

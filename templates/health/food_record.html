@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0" />
+    <link rel="stylesheet" href="{{url_for('static',filename = 'css/style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename = 'css/nav.css')}}">
     <title>食事記録</title>
     <script>
         function addMealInput() {
             let container = document.getElementById("meal-container");
             let inputDiv = document.createElement("div");
             inputDiv.innerHTML = `<input type="text" name="meal_detail-${container.children.length}" class="form-control" size="32"> 
-                          <button type="button" onclick="removeMealInput(this)">削除</button>`;
+                          <button type="button" onclick="removeMealInput(this)" class="delete_button">削除</button>`;
             container.appendChild(inputDiv);
         }
 
@@ -17,41 +21,56 @@
             button.parentElement.remove();
         }
     </script>
-
 </head>
 <body>
-    <p>食事記録</p>
+    <header class="header">
+    	<a href="{{url_for('user_top')}}" class="home">健康管理アプリ</a>
+        <nav class="nav">
+            <ul>
+                <li><a href="{{url_for('health.food_record')}}">食事記録</a></li>
+                <li><a href="{{url_for('health.exercise_record')}}"> 運動記録</a></li>
+                <li><a href="{{url_for('health.health_record')}}"> 健康記録</a></li>
+                <li><a href="{{url_for('user.profile')}}">プロフィール</a></li>
+                <li><a href="{{url_for('logout')}}">ログアウト</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <form action="{{url_for('health.food_record_confirm')}}" method="POST" novalidate>
+    <p class="sub_title">食事記録</p>
+
+    <form action="{{url_for('health.food_record_confirm')}}" method="POST" novalidate class="login_form">
         {{form.hidden_tag()}}
 
         <div>
-            {{form.date.label}}
-            {{form.date(class='form-control',size=32)}}
+            {{form.date(class='meal_form',size=32)}}
+        </div>
+        <div class="error">
             {% for error in form.date.errors %}
             <span style="color:red">{{error}}</span>
             {% endfor %}
         </div>
         <div>
-            {{ form.meal_type.label }}
-            {{ form.meal_type(class='form-control') }}
+            {{ form.meal_type(class='meal_form') }}
+        </div>
+        <div>
             {% for error in form.meal_type.errors %}
             <span style="color:red;">{{ error }}</span>
             {% endfor %}
         </div>
         <div id="meal-container">
             {% for field in form.meal_detail %}
-                <div>
-                    {{ field(class='form-control', size=32) }}
-                    <button type="button" onclick="removeMealInput(this)">削除</button>
+                <div class="delete">
+                    <div class="detail_form">
+                        {{ field(class='form-control', size=32,placeholder="食事内容") }}
+                        <button type="button" onclick="removeMealInput(this)" class="delete_button">削除</button>
+                    </div>
                 </div>
-            {% endfor %}
-            <button type="button" onclick="addMealInput()">追加</button>
+                {% endfor %}
             </div>
-
-        <div>
-            {{form.submit(class='btn btn-primary')}}
-        </div>
+            <div>
+                <button type="button" onclick="addMealInput()" class="search_button">追加</button>    
+                {{form.submit(class='button')}}
+            </div>
     </form>
 
     {% with messages = get_flashed_messages() %} {% if messages %}
