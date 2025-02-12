@@ -42,19 +42,12 @@
         {{form.hidden_tag()}}
 
         <div>
-            {{form.date.label}}
-        </div>
-        <div>
             {{form.date(class='meal_form',size=32)}}
         </div>
         <div class="error">
             {% for error in form.date.errors %}
             <span style="color:red">{{error}}</span>
             {% endfor %}
-        </div>
-
-        <div>
-            {{ form.meal_type.label }}
         </div>
         <div>
             {{ form.meal_type(class='meal_form') }}
@@ -64,15 +57,11 @@
             <span style="color:red;">{{ error }}</span>
             {% endfor %}
         </div>
-
-        <div>
-            <label>食事内容</label>
-        </div>
         <div id="meal-container">
             {% for field in form.meal_detail %}
                 <div class="delete">
                     <div class="detail_form">
-                        {{ field(class='form-control', size=32) }}
+                        {{ field(class='form-control', size=32,placeholder="食事内容") }}
                         <button type="button" onclick="removeMealInput(this)" class="delete_button">削除</button>
                     </div>
                 </div>
