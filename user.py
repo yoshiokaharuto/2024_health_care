@@ -32,30 +32,30 @@ class SignupForm(FlaskForm):
 class ProfileForm(FlaskForm):
     birthday = DateField(
         '生年月日',
-        validators=[DataRequired(message='生年月日が未入力です')],
+        validators=[DataRequired(message='未入力です')],
         format='%Y-%m-%d'
     )
     height = FloatField(
         '身長',
-        validators=[DataRequired(message='身長が未入力です'),NumberRange(min=0)]
+        validators=[DataRequired(message='未入力です'),NumberRange(min=0)]
     )
     weight = FloatField(
         '体重',
-        validators=[DataRequired(message='体重が未入力です'),NumberRange(min=0)]
+        validators=[DataRequired(message='未入力です'),NumberRange(min=0)]
     )
     target_weight = FloatField(
         '目標体重',
-        validators=[DataRequired(message='目標体重が未入力です'),NumberRange(min=0)]
+        validators=[DataRequired(message='未入力です'),NumberRange(min=0)]
     )
     target_sleep = FloatField(
         '目標睡眠時間',
-        validators=[DataRequired(message='目標睡眠時間が未入力です'),NumberRange(min=0,max=24)]
+        validators=[DataRequired(message='未入力です'),NumberRange(min=0,max=24)]
     )
     daily_excercise = FloatField(
         '1日の運動時間',
-        validators=[DataRequired(message='1日の運動時間が未入力です'),NumberRange(min=0,max=24)]
+        validators=[DataRequired(message='未入力です'),NumberRange(min=1)]
     )
-    submit = SubmitField('プロフィールを更新')
+    submit = SubmitField('更新')
     
 
 @user_bp.route('/sign_up', methods=['GET', 'POST'])
