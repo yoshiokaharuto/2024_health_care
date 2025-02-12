@@ -3,22 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0" />
+	<link rel="stylesheet" href="{{url_for('static',filename = 'css/style.css')}}">
+	<link rel="stylesheet" href="{{url_for('static',filename = 'css/nav.css')}}">
+	<link rel="stylesheet" href="{{url_for('static',filename = 'css/search.css')}}">
     <title>食事一覧</title>
 </head>
 <body>
-    <p>食事記録一覧</p>
+
+    <header class="header">
+    	<a href="{{url_for('user_top')}}" class="home">健康管理アプリ</a>
+        <nav class="nav">
+            <ul>
+                <li><a href="{{url_for('health.food_record')}}">食事記録</a></li>
+                <li><a href="{{url_for('health.exercise_record')}}"> 運動記録</a></li>
+                <li><a href="{{url_for('health.health_record')}}"> 健康記録</a></li>
+                <li><a href="{{url_for('user.profile')}}">プロフィール</a></li>
+                <li><a href="{{url_for('logout')}}">ログアウト</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <p class="sub_title">食事記録一覧</p>
 
     <form action="{{url_for('health.meal_search')}}" method='POST'>
         {{form.hidden_tag()}}
-        <div>
-            {{form.meal_date.label}}
+        <div class="search_box">
             {{form.meal_date(class='form-control',size=32)}}
             {% for error in form.meal_date.errors %}
             <span style="color:red">{{error}}</span>
             {% endfor %}
-        </div>
-        <div>
-            {{form.submit(class='btn btn-primary')}}
+            {{form.submit(class='search_button')}}
         </div>
     </form>
     <table>
