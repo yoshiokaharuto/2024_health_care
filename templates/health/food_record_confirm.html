@@ -3,18 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0" />
+	<link rel="stylesheet" href="{{url_for('static',filename = 'css/style.css')}}">
+	<link rel="stylesheet" href="{{url_for('static',filename = 'css/confirm.css')}}">
     <title>食事記録確認</title>
 </head>
 <body>
-    <p>登録内容確認</p>
-    <div>
-        <div>
-            <label>日付</label>
-            <span>{{ session['date'] }}</span>
+    <p class="sub_title">登録内容確認</p>
+    <div class="range">
+        <div class="item">
+            <label class="label">日付</label>
+            <span class="element">{{ session['date'] }}</span>
         </div>
-        <div>
-            <label>食事の種類</label>
-            <span>
+        <div class="item">
+            <label class="label">食事の種類</label>
+            <span class="element">
                 {% for value, label in form.meal_type.choices %}
                     {% if value == session['meal_type'] %}
                         {{ label }}
@@ -22,17 +26,18 @@
                 {% endfor %}
             </span>
         </div>
-        <div>
-            <label>食事内容</label>
-            <ul>
+        <div class="item">
+            <label class="label">食事内容</label>
+            <ul class="element">
                 {% for item in session['meal_detail'] %}
                     <li>{{ item }}</li>
                 {% endfor %}
             </ul>
         </div>
-
+        <div class="button_wrapper">
+            <a href="{{url_for('health.food_record')}}" class="back_button">修正</a>
+            <a href="{{url_for('health.food_record_execute')}}" class="exe_button">登録</a>
+        </div>
     </div>
-    <a href="{{url_for('health.food_record')}}">修正</a>
-    <a href="{{url_for('health.food_record_execute')}}">登録</a>
 </body>
 </html>
