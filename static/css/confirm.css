@@ -28,8 +28,9 @@
     width: 190px; 
 }
 .element{
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     font-weight: bold;
+    margin: 5px;
 }
 .exe_button{
     margin: 10px 13px 1px 0;;
