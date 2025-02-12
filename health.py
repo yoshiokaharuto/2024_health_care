@@ -17,7 +17,7 @@ class FoodRecord(FlaskForm):
     )
     meal_type = SelectField(
         '食事の種類',
-        choices=[("", "選択してください"),("1", "朝食"), ("2", "昼食"), ("3", "夕食")],
+        choices=[("", "食事の種類を選択してください"),("1", "朝食"), ("2", "昼食"), ("3", "夕食")],
         validators=[DataRequired(message='種類を選択してください')]   
     )
     meal_detail = FieldList(
