@@ -23,6 +23,23 @@ body {
     box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.4);
     margin: 0.7rem 0;
 }
+.form{
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    border: 3px solid #82ffb2;   /* すべての枠線を黒色に設定 */
+    outline: none;             /* フォーカス時のアウトラインを消す */ 
+    width: 35%;
+    height: 35px; 
+    box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.4);
+    margin: 0.4rem 0;
+}
+.form:hover{
+    border: 3px solid #0deb5e;
+}
+.form::placeholder{
+    font-family: "Noto Sans JP", system-ui;
+    color: black;
+}
 .form-control:hover{
     border: 3px solid #0deb5e;
 }
@@ -71,6 +88,32 @@ body {
     box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.4);
     transition: border-color 0.3s ease-in-out;
 }
+.search_button{
+    font-family: "Noto Sans JP", system-ui;
+    margin: 10px 0 1px 13px;
+    border:none;
+    background-color: #627CFF;
+    font-size: 1.1rem;
+    color:white;
+    width: 130px;
+    height: 50px;
+    border-radius: 0.5rem;
+    box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.4);
+    transition: border-color 0.8s ease-in-out;
+}
+.delete_button{
+    font-family: "Noto Sans JP", system-ui;
+    margin: 10px 0 1px 13px;
+    border:none;
+    background-color: red;
+    font-size: 1.1rem;
+    color:white;
+    width: 130px;
+    height: 50px;
+    border-radius: 0.5rem;
+    box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.4);
+    transition: border-color 0.8s ease-in-out;
+}
 .button_wrapper{
     display: flex;
     justify-content: center;
@@ -80,4 +123,14 @@ body {
 }
 .back_button:hover{
     border: 1px solid white;
+}
+.meal_form{
+    font-size: 1.1rem;
+    border-radius: 0.5rem;
+    border: 3px solid #82ffb2;   /* すべての枠線を黒色に設定 */
+    outline: none;             /* フォーカス時のアウトラインを消す */ 
+    width: 47%;
+    height: 45px; 
+    box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.4);
+    margin: 0.7rem 0;
 }
