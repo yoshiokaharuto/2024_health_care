@@ -9,7 +9,15 @@
     border: 1.5px solid black;
     margin: 10px;
     padding: 8px;
-    width: 30%;
+    width: 31%;
+    border-radius: 0.5rem;
+    box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.4);
+}
+.graph_block{
+    border: 1.5px solid black;
+    margin: 10px;
+    padding: 8px;
+    width: 95%;
     border-radius: 0.5rem;
     box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.4);
 }
@@ -26,7 +34,7 @@
     border: 1.5px solid black;
     margin: 10px;
     padding: 8px;
-    width: 96%;
+    width: 97%;
     border-radius: 0.5rem;
     box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.4);
 }
@@ -37,6 +45,15 @@
 .health_label{
     margin: 5px auto;
 }
-#progress{
-    width: 98%;
+progress {
+    width: 99%;
+    height: 20px;
+}
+
+progress::-webkit-progress-value {
+    background-color: #22C55E; /* 緑色 */
+}
+
+progress::-webkit-progress-bar {
+    background-color: #ddd; /* 背景色（バーの未完了部分） */
 }
